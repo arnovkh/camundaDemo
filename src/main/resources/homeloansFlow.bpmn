@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0dwui31" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.2.4">
+  <bpmn:process id="HomeloansFlow" isExecutable="true">
+    <bpmn:startEvent id="Start">
+      <bpmn:outgoing>SequenceFlow_05t5phs</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_05t5phs" sourceRef="Start" targetRef="tskAdvisory" />
+    <bpmn:sequenceFlow id="SequenceFlow_1philkh" sourceRef="tskAdvisory" targetRef="tskAssessment" />
+    <bpmn:sequenceFlow id="SequenceFlow_07awwlh" sourceRef="tskAssessment" targetRef="tskRecommendation" />
+    <bpmn:sequenceFlow id="SequenceFlow_1wctw19" sourceRef="tskRecommendation" targetRef="Task_0p89lu3" />
+    <bpmn:exclusiveGateway id="xorISApprovedf">
+      <bpmn:incoming>SequenceFlow_1bzb2a5</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_17pfwgl</bpmn:incoming>
+      <bpmn:outgoing>sefRejected</bpmn:outgoing>
+      <bpmn:outgoing>sefApproved</bpmn:outgoing>
+      <bpmn:outgoing>sefEscalate</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_1bzb2a5" sourceRef="Task_0p89lu3" targetRef="xorISApprovedf" />
+    <bpmn:endEvent id="End">
+      <bpmn:incoming>sefRejected</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1esh2wp</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="sefRejected" name="Rejected" sourceRef="xorISApprovedf" targetRef="End">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${status == 'REJECTED'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="sefApproved" name="Approved" sourceRef="xorISApprovedf" targetRef="tskDocumentation">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${status == 'APPROVED'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="sefEscalate" sourceRef="xorISApprovedf" targetRef="tskEscalation" />
+    <bpmn:sequenceFlow id="SequenceFlow_17pfwgl" sourceRef="tskEscalation" targetRef="xorISApprovedf" />
+    <bpmn:sequenceFlow id="SequenceFlow_1j9k7qf" sourceRef="tskDocumentation" targetRef="tskDisbursement" />
+    <bpmn:sequenceFlow id="SequenceFlow_1esh2wp" sourceRef="tskDisbursement" targetRef="End" />
+    <bpmn:userTask id="tskAdvisory" name="Advisory">
+      <bpmn:incoming>SequenceFlow_05t5phs</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1philkh</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="tskAssessment" name="Assessment">
+      <bpmn:incoming>SequenceFlow_1philkh</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_07awwlh</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="tskRecommendation" name="Recommendation">
+      <bpmn:incoming>SequenceFlow_07awwlh</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1wctw19</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Task_0p89lu3" name="Sanctioning">
+      <bpmn:incoming>SequenceFlow_1wctw19</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1bzb2a5</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="tskDocumentation" name="Documentation">
+      <bpmn:incoming>sefApproved</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1j9k7qf</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="tskEscalation" name="Escalation">
+      <bpmn:incoming>sefEscalate</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_17pfwgl</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="tskDisbursement" name="DIsbursement">
+      <bpmn:incoming>SequenceFlow_1j9k7qf</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1esh2wp</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="HomeloansFlow">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="Start">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_05t5phs_di" bpmnElement="SequenceFlow_05t5phs">
+        <di:waypoint x="209" y="120" />
+        <di:waypoint x="259" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1philkh_di" bpmnElement="SequenceFlow_1philkh">
+        <di:waypoint x="359" y="120" />
+        <di:waypoint x="409" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_07awwlh_di" bpmnElement="SequenceFlow_07awwlh">
+        <di:waypoint x="509" y="120" />
+        <di:waypoint x="559" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1wctw19_di" bpmnElement="SequenceFlow_1wctw19">
+        <di:waypoint x="659" y="120" />
+        <di:waypoint x="709" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_05g1ga3_di" bpmnElement="xorISApprovedf" isMarkerVisible="true">
+        <dc:Bounds x="859" y="95" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1bzb2a5_di" bpmnElement="SequenceFlow_1bzb2a5">
+        <di:waypoint x="809" y="120" />
+        <di:waypoint x="859" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0sb4roq_di" bpmnElement="End">
+        <dc:Bounds x="1123" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1bd0y8w_di" bpmnElement="sefRejected">
+        <di:waypoint x="909" y="120" />
+        <di:waypoint x="1123" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="994" y="102" width="44" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0cr2ul7_di" bpmnElement="sefApproved">
+        <di:waypoint x="884" y="145" />
+        <di:waypoint x="884" y="230" />
+        <di:waypoint x="1091" y="230" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="897" y="182" width="47" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0tv5mye_di" bpmnElement="sefEscalate">
+        <di:waypoint x="884" y="145" />
+        <di:waypoint x="884" y="340" />
+        <di:waypoint x="1123" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_17pfwgl_di" bpmnElement="SequenceFlow_17pfwgl">
+        <di:waypoint x="1173" y="380" />
+        <di:waypoint x="1173" y="459" />
+        <di:waypoint x="689" y="459" />
+        <di:waypoint x="875" y="136" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1j9k7qf_di" bpmnElement="SequenceFlow_1j9k7qf">
+        <di:waypoint x="1191" y="230" />
+        <di:waypoint x="1271" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1esh2wp_di" bpmnElement="SequenceFlow_1esh2wp">
+        <di:waypoint x="1321" y="190" />
+        <di:waypoint x="1321" y="120" />
+        <di:waypoint x="1159" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_0eknm5w_di" bpmnElement="tskAdvisory">
+        <dc:Bounds x="259" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_11fs8yo_di" bpmnElement="tskAssessment">
+        <dc:Bounds x="409" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0jpisl3_di" bpmnElement="tskRecommendation">
+        <dc:Bounds x="559" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1rk4rat_di" bpmnElement="Task_0p89lu3">
+        <dc:Bounds x="709" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_19354da_di" bpmnElement="tskDocumentation">
+        <dc:Bounds x="1091" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1pwakfw_di" bpmnElement="tskEscalation">
+        <dc:Bounds x="1123" y="300" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1889bl7_di" bpmnElement="tskDisbursement">
+        <dc:Bounds x="1271" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

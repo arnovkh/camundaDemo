@@ -1,0 +1,194 @@
+{
+	"info": {
+		"_postman_id": "6233be3e-6876-44be-910e-d0620de84813",
+		"name": "Camunda Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CreateProcess",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"variables\": {\r\n    \"aVariable\" : {\r\n        \"value\" : \"aStringValue\",\r\n        \"type\": \"String\"\r\n    },\r\n    \"anotherVariable\" : {\r\n      \"value\" : true,\r\n      \"type\": \"Boolean\"\r\n    }\r\n  },\r\n \"businessKey\" : \"{{reference}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8090/engine-rest/engine/default/process-definition/key/HomeloansFlow/start",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"engine-rest",
+						"engine",
+						"default",
+						"process-definition",
+						"key",
+						"HomeloansFlow",
+						"start"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getActiveTask",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5caab2b3-89f9-4986-b2e6-35f0f04f7754",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"taskId\", jsonData[0].id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8090/engine-rest/engine/default/task?processDefinitionKey=HomeloansFlow&processInstanceBusinessKey={{reference}}&active=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"engine-rest",
+						"engine",
+						"default",
+						"task"
+					],
+					"query": [
+						{
+							"key": "processDefinitionKey",
+							"value": "HomeloansFlow"
+						},
+						{
+							"key": "processInstanceBusinessKey",
+							"value": "{{reference}}"
+						},
+						{
+							"key": "active",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Assignee",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"demo\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8090/engine-rest/engine/default/task/{{taskId}}/assignee",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"engine-rest",
+						"engine",
+						"default",
+						"task",
+						"{{taskId}}",
+						"assignee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Complete Task",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\r\n      \"variables\": {\r\n    \"status\" : {\r\n        \"value\" : \"ACTIVE\",\r\n        \"type\": \"String\"\r\n    }\r\n  }\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8090/engine-rest/engine/default/task/{{taskId}}/complete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"engine-rest",
+						"engine",
+						"default",
+						"task",
+						"{{taskId}}",
+						"complete"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "14cbb0bb-ff90-4440-9567-ffa1ecea297f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "f40561ca-bdb4-4c36-a6c7-8979f7dabcc3",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "91e62121-bae6-4deb-8199-48b9c8a10c90",
+			"key": "reference",
+			"value": "INDL-2002"
+		},
+		{
+			"id": "f0134d55-581a-4ba2-83a2-6f20a57704eb",
+			"key": "taskId",
+			"value": ""
+		}
+	],
+	"protocolProfileBehavior": {}
+}

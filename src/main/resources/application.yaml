@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: camunda-engine
+
+server:
+  error:
+    whitelabel:
+      enabled: false
+  port: 8090
+  servlet:
+    session:
+      timeout: 120s
+
+camunda.bpm:
+  admin-user:
+    id: demo
+    password: demo
+    firstName: Demo
+
