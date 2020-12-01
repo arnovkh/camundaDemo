@@ -96,7 +96,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"userId\": \"demo\"\r\n}",
+					"raw": "{\r\n    \"userId\": \"khejhu\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -129,7 +129,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "  {\r\n      \"variables\": {\r\n    \"status\" : {\r\n        \"value\" : \"ACTIVE\",\r\n        \"type\": \"String\"\r\n    }\r\n  }\r\n  }",
+					"raw": "  {\r\n      \"variables\": {\r\n    \"status\" : {\r\n        \"value\" : \"APPROVED\",\r\n        \"type\": \"String\"\r\n    }\r\n  }\r\n  }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -180,12 +180,12 @@
 	],
 	"variable": [
 		{
-			"id": "91e62121-bae6-4deb-8199-48b9c8a10c90",
+			"id": "7be3eec4-71f4-4c2b-898e-330b2c91c52d",
 			"key": "reference",
 			"value": "INDL-2002"
 		},
 		{
-			"id": "f0134d55-581a-4ba2-83a2-6f20a57704eb",
+			"id": "d1febc60-ca96-480a-9e9d-e343dba43031",
 			"key": "taskId",
 			"value": ""
 		}
